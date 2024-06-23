@@ -4,18 +4,15 @@ Compiles the AST into bytecode
 
 local parse = require("./parse")
 local vm = require("./vm")
-local testkit = require("../test/testkit")
 
 type Instruction = vm.Instruction
 
 local function compile(root: {parse.Expression | parse.Call | parse.Statement})
-	print "start compile"
 
 	local instructions: {Instruction} = {}
 
 	local generate_expression: (node: parse.Expression) -> ()
 	local generate_command: (node: parse.Call) -> ()
-	print("aa")
 
 	local function generate_dictionary(node: parse.Expression)
 		assert(node.type == "dictionary")
@@ -104,7 +101,6 @@ local function compile(root: {parse.Expression | parse.Call | parse.Statement})
 	end
 	
 	function generate_command(node: parse.Call)
-		print(node.type, node.name)
 		if node.type == "ccall" then
 
 			for i = #node.arguments, 1, -1 do
@@ -159,13 +155,9 @@ local function compile(root: {parse.Expression | parse.Call | parse.Statement})
 		elseif node.type == "fcall" then
 			generate_command(node)
 		else
-			testkit.print2(node)
 			generate_expression(node)
 		end
 	end
-
-	
-	testkit.print2(instructions)
 
 	return instructions
 

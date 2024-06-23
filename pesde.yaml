@@ -1,0 +1,14 @@
+name: alicesaidhi/alice
+version: 0.1.0
+description: alice language and compiler
+license: MIT
+authors:
+- alicesaidhi
+repository: https://github.com/alicesaidhi/alice
+exports: {}
+path_style: !roblox
+  place: {}
+private: false
+realm: shared
+indices:
+  default: https://github.com/daimond113/pesde-index

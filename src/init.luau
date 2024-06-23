@@ -2,6 +2,7 @@
 local lex = require("../src/lex")
 local parse = require("../src/parse")
 local compile = require("../src/compile")
+local command = require("./command")
 local vm = require("../src/vm")
 
 return {
@@ -17,6 +18,8 @@ return {
 
 	compile = function(input: string)
 		return compile(parse(lex(input)))
-	end
+	end,
+
+	command = command
 
 }

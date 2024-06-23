@@ -156,7 +156,7 @@ local function parse(stream: lex.Stream): {Expression | Statement}
 			end
 			if is_sym(stop) then break end
 			table.insert(a, parser())
-			print('next')
+			-- print('next')
 		end
 		skip_symbol(stop)
 		local to = stream.pos()
@@ -264,7 +264,7 @@ local function parse(stream: lex.Stream): {Expression | Statement}
 			elseif is_sym("{") or is_sym("(") or peek.type ~= "symbol" then
 				table.insert(arg, parse_expression())
 			else
-				print("stop due to", peek.type, peek.s)
+				-- print("stop due to", peek.type, peek.s)
 				break
 			end
 
@@ -330,11 +330,11 @@ local function parse(stream: lex.Stream): {Expression | Statement}
 		local tokens, from, to = delimited("(", ")", nil, function()
 			if is_op("&") or is_op("$") then
 				-- parse as normal command
-				print("parse cmd")
+				-- print("parse cmd")
 				return parse_command()
 			elseif fn and is_sym("(") then
 				-- parse as function
-				print("parse fn")
+				-- print("parse fn")
 				return parse_function()
 			elseif stream.peek().type == "identifier" then
 				return parse_command()
@@ -374,7 +374,7 @@ local function parse(stream: lex.Stream): {Expression | Statement}
 			stream.next()
 			return parse_variable()
 		elseif is_op("&") then
-			print("parse not nested")
+			-- print("parse not nested")
 			return parse_not_nested_cmd()
 		elseif is_sym("(") then
 			return parse_nested(true)
@@ -392,16 +392,16 @@ local function parse(stream: lex.Stream): {Expression | Statement}
 	while not stream.eof() do
 		
 		local token = stream.peek()
-		print(#nodes, token.s, token.type)
+		-- print(#nodes, token.s, token.type)
 		
 		if token.type == "identifier" and stream.peek(2).type == "operator" and stream.peek(2).s == "=" then
-			print("parse assignment")
+			-- print("parse assignment")
 			table.insert(nodes, parse_assignment())
 		elseif token.type == "operator" or token.type == "identifier" then
-			print("parse command")
+			-- print("parse command")
 			table.insert(nodes, parse_command())
 		else
-			print("parse expression")
+			-- print("parse expression")
 			table.insert(nodes, parse_expression())
 		end
 	end

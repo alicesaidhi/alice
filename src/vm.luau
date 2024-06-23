@@ -152,8 +152,8 @@ end
 local function inherited_vm(vm: VMState): VMState
 
 	return {
-		variables = setmetatable({}, {__index = vm.stack}) :: any,
-		commands = setmetatable({}, {__index = vm.variables}) :: any,
+		variables = setmetatable({}, {__index = vm.variables}) :: any,
+		commands = setmetatable({}, {__index = vm.commands}) :: any,
 		stack = {}
 	}
 
@@ -180,11 +180,11 @@ local function run(vm: VMState, bytecode: {Instruction})
 		table.insert(stack, if value == nil then NIL else value)
 	end
 
-	local function push_tuple(...)
-		for i = 1, select("#", ...) do
-			push(select(i, ...))
-		end
-	end
+	-- local function push_tuple(...)
+	-- 	for i = 1, select("#", ...) do
+	-- 		push(select(i, ...))
+	-- 	end
+	-- end
 
 	local function Clear(i: Clear)
 		table.clear(stack)
@@ -202,7 +202,7 @@ local function run(vm: VMState, bytecode: {Instruction})
 				arguments[i] = pop()
 			end
 
-			push_tuple(value(arguments))
+			push(value(arguments))
 		else
 			for i = 1, i.arguments do
 				pop()
@@ -220,9 +220,10 @@ local function run(vm: VMState, bytecode: {Instruction})
 
 		local arguments = {}
 		for i = 1, i.arguments do
-			push(arguments)
+			table.insert(arguments, pop())
 		end
 
+		push(command(unpack(arguments)))
 	end
 
 	local function Set(i: Set)
