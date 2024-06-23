@@ -1,0 +1,7 @@
+{
+    "luau-lsp.sourcemap.enabled": false,
+    "luau-lsp.types.roblox": false,
+    "luau-lsp.fflags.override": {
+        "DebugLuauDeferredConstraintResolution": "False"
+    }
+}
